@@ -17,6 +17,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+<link data-n-head="ssr" rel="preload" as="font" type="font/woff2" href="/font/Roboto-Light.woff2" crossorigin="true">
+<link data-n-head="ssr" rel="preload" as="font" type="font/woff2" href="/font/Roboto-Medium.woff2" crossorigin="true">
+<link data-n-head="ssr" rel="preload" as="font" type="font/woff2" href="/font/Roboto-Regular.woff2" crossorigin="true">
+<link data-n-head="ssr" rel="preload" as="font" type="font/woff2" href="/font/Roboto-Bold.woff2" crossorigin="true">
+
 </head>
 
 <body>
@@ -39,27 +44,27 @@
         </div>
         <div class="header-bar-right">
             <div class="header-right-time">
-                <i class="fas fa-caret-right right-arrow"></i>
+                <i class="fas fa-caret-right right-arrow" style="color: #000;"></i>
                 <p class="header-right-time-text">
                     Deal ends in:
                 </p>
                 <div class="time-content">
                     <p id="days" class="time-day">
-                        3 :
+                        
                     </p>
                     <span class="time-dots">:</span>
                     <p id="hours" class="time-hour">
-                        5 :
+                        
                     </p>
                     <span class="time-dots">:</span>
                     <p id="minutes" class="time-minute">
-                        20 :
+                        
                     </p>
                     <span class="time-dots">:</span>
                     <p id="seconds" class="time-second">
-                        52
+                        
                     </p>
-                    <i class="fas fa-caret-left left-arrow"></i>
+                    <i class="fas fa-caret-left left-arrow" style="color: #000;"></i>
                 </div>
                 
             </div>
@@ -101,25 +106,33 @@
 
     <script>
         // Tarih ayarlamaları
-        (function () {
-  const second = 1000,
-        minute = second * 60,
-        hour = minute * 60,
-        day = hour * 24;
+        function makeTimer() {
 
-  let coupondate = "June 30, 2021 00:00:00",
-      countDown = new Date(coupondate).getTime(),
-      x = setInterval(function() {    
+var endTime = new Date("June 25, 2021 17:00:00");			
+var endTime = (Date.parse(endTime)) / 1000;
 
-        let now = new Date().getTime(),
-            distance = countDown - now;
+var now = new Date();
+var now = (Date.parse(now) / 1000);
 
-        document.getElementById("days").innerText = Math.floor(distance / (day)),
-          document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
-          document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
-          document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
-      }, 0)
-  }());
+var timeLeft = endTime - now;
+
+var days = Math.floor(timeLeft / 86400); 
+var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+if (hours < "10") { hours = "0" + hours; }
+if (minutes < "10") { minutes = "0" + minutes; }
+if (seconds < "10") { seconds = "0" + seconds; }
+
+$("#days").html(days );
+$("#hours").html(hours );
+$("#minutes").html(minutes );
+$("#seconds").html(seconds);		
+
+}
+
+setInterval(function() { makeTimer(); }, 1000);
  
         
            
